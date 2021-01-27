@@ -1,0 +1,5 @@
+book_filename: "r_deep_learning_vision_systems"
+delete_merged_file: true
+language:
+  ui:
+    chapter_name: "Chapter "

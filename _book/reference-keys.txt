@@ -1,0 +1,10 @@
+welcome-to-computer-vision
+deep-learning-and-neural-networks
+convolutional-neural-networks
+structuring-deep-learning-projects-and-hyperparameter-tuning
+advanced-cnn-architectures
+object-detection-with-r-cnn-ssd-and-yolo
+transfer-learning
+generative-adversarial-networks
+deep-dream-and-neural-style-transfer
+visual-embeddings

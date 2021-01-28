@@ -1,3 +1,3 @@
 # Welcome to Computer Vision
 
-Nothing here yet...
+No code in this chapter!

@@ -1,3 +1,22 @@
 # Deep Learning and Neural Networks
 
-Here is a review of existing methods.
+## Fully Connected layers
+### Box on Page 48
+
+An exercise to build a network and see what is inside!
+
+```{r first_network}
+library(keras)
+library(tensorflow)
+
+model <- keras_model_sequential() %>%
+  layer_dense(units = 5, input_shape = 4) %>%
+  layer_dense(units = 5) %>%
+  layer_dense(units = 3)
+```
+
+Now, what's in the box?
+
+```{r first_network_summary}
+summary(model)
+```

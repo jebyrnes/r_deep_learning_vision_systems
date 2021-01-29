@@ -5,7 +5,7 @@
 
 An exercise to build a network and see what is inside!
 
-```{r first_network}
+```{r first_network, warning=FALSE}
 library(keras)
 library(tensorflow)
 

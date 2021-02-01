@@ -24,7 +24,7 @@
 <meta name="author" content="Jarrett Byrnes" />
 
 
-<meta name="date" content="2021-01-29" />
+<meta name="date" content="2021-02-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -140,6 +140,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.1" data-path="deep-learning-and-neural-networks.html"><a href="deep-learning-and-neural-networks.html#fully-connected-layers"><i class="fa fa-check"></i><b>2.1</b> Fully Connected layers</a><ul>
 <li class="chapter" data-level="2.1.1" data-path="deep-learning-and-neural-networks.html"><a href="deep-learning-and-neural-networks.html#box-on-page-48"><i class="fa fa-check"></i><b>2.1.1</b> Box on Page 48</a></li>
 </ul></li>
+<li class="chapter" data-level="2.2" data-path="deep-learning-and-neural-networks.html"><a href="deep-learning-and-neural-networks.html#the-relu-function"><i class="fa fa-check"></i><b>2.2</b> 2.3.6 The Relu Function</a></li>
+<li class="chapter" data-level="2.3" data-path="deep-learning-and-neural-networks.html"><a href="deep-learning-and-neural-networks.html#leaky-relu"><i class="fa fa-check"></i><b>2.3</b> 2.3.7 Leaky Relu</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="convolutional-neural-networks.html"><a href="convolutional-neural-networks.html"><i class="fa fa-check"></i><b>3</b> Convolutional Neural Networks</a></li>
 <li class="chapter" data-level="4" data-path="structuring-deep-learning-projects-and-hyperparameter-tuning.html"><a href="structuring-deep-learning-projects-and-hyperparameter-tuning.html"><i class="fa fa-check"></i><b>4</b> Structuring Deep Learning Projects and Hyperparameter Tuning</a></li>
@@ -171,36 +173,65 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="deep-learning-and-neural-networks" class="section level1">
 <h1><span class="header-section-number">Chapter 2</span> Deep Learning and Neural Networks</h1>
+<p>Definitely go check out <a href="https://playground.tensorflow.org/" class="uri">https://playground.tensorflow.org/</a> and play around - it’s a great learning tool!</p>
 <div id="fully-connected-layers" class="section level2">
 <h2><span class="header-section-number">2.1</span> Fully Connected layers</h2>
 <div id="box-on-page-48" class="section level3">
 <h3><span class="header-section-number">2.1.1</span> Box on Page 48</h3>
 <p>An exercise to build a network and see what is inside!</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">library</span>(keras)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">library</span>(tensorflow)</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4">model &lt;-<span class="st"> </span><span class="kw">keras_model_sequential</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">5</span>, <span class="dt">input_shape =</span> <span class="dv">4</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">5</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">3</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">library</span>(keras)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">library</span>(tensorflow)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">model &lt;-<span class="st"> </span><span class="kw">keras_model_sequential</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">5</span>, <span class="dt">input_shape =</span> <span class="dv">4</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">5</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">3</span>)</a></code></pre></div>
 <p>Now, what’s in the box?</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">summary</span>(model)</a></code></pre></div>
-<pre><code>## Model: &quot;sequential_2&quot;
-## ______________________________________________________________________
-## Layer (type)                   Output Shape                Param #    
-## ======================================================================
-## dense_6 (Dense)                (None, 5)                   25         
-## ______________________________________________________________________
-## dense_7 (Dense)                (None, 5)                   30         
-## ______________________________________________________________________
-## dense_8 (Dense)                (None, 3)                   18         
-## ======================================================================
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">summary</span>(model)</a></code></pre></div>
+<pre><code>## Model: &quot;sequential&quot;
+## ___________________________________________________________________________________________
+## Layer (type)                            Output Shape                         Param #       
+## ===========================================================================================
+## dense (Dense)                           (None, 5)                            25            
+## ___________________________________________________________________________________________
+## dense_1 (Dense)                         (None, 5)                            30            
+## ___________________________________________________________________________________________
+## dense_2 (Dense)                         (None, 3)                            18            
+## ===========================================================================================
 ## Total params: 73
 ## Trainable params: 73
 ## Non-trainable params: 0
-## ______________________________________________________________________</code></pre>
-
+## ___________________________________________________________________________________________</code></pre>
 </div>
+</div>
+<div id="the-relu-function" class="section level2">
+<h2><span class="header-section-number">2.2</span> 2.3.6 The Relu Function</h2>
+<p>Just a quick implementation</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">relu &lt;-<span class="st"> </span><span class="cf">function</span>(x){</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">  <span class="cf">if</span>(x <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>) <span class="kw">return</span>(<span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">  <span class="kw">return</span>(x)</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">}</a>
+<a class="sourceLine" id="cb6-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#for example</span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="kw">relu</span>(<span class="op">-</span><span class="dv">5</span>)</a></code></pre></div>
+<pre><code>## [1] 0</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">relu</span>(<span class="dv">3</span>)</a></code></pre></div>
+<pre><code>## [1] 3</code></pre>
+</div>
+<div id="leaky-relu" class="section level2">
+<h2><span class="header-section-number">2.3</span> 2.3.7 Leaky Relu</h2>
+<p>I couldn’t resist improving a bit here</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">leaky_relu &lt;-<span class="st"> </span><span class="cf">function</span>(x, <span class="dt">leak =</span> <span class="fl">0.01</span>){</a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">    <span class="cf">if</span>(x <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>) <span class="kw">return</span>(leak<span class="op">*</span>x)</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3">  <span class="kw">return</span>(x)</a>
+<a class="sourceLine" id="cb10-4" data-line-number="4">}</a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#for example</span></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="kw">leaky_relu</span>(<span class="op">-</span><span class="dv">5</span>)</a></code></pre></div>
+<pre><code>## [1] -0.05</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">relu</span>(<span class="dv">3</span>)</a></code></pre></div>
+<pre><code>## [1] 3</code></pre>
+
 </div>
 </div>
             </section>

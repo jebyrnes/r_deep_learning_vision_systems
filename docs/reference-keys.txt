@@ -2,6 +2,8 @@ welcome-to-computer-vision
 deep-learning-and-neural-networks
 fully-connected-layers
 box-on-page-48
+the-relu-function
+leaky-relu
 convolutional-neural-networks
 structuring-deep-learning-projects-and-hyperparameter-tuning
 advanced-cnn-architectures

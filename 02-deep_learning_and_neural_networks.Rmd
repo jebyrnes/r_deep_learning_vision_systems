@@ -1,5 +1,8 @@
 # Deep Learning and Neural Networks
 
+There's not a lot of code in this chapter. It's mostly concepts and mathematical review, so, not much here. But, we see our first model, and some functions are implemented to play around with.  
+
+
 Definitely go check out https://playground.tensorflow.org/ and play around - it's a great learning tool!
 
 ## Fully Connected layers

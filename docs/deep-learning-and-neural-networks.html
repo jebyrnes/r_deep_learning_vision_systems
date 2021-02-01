@@ -173,6 +173,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="deep-learning-and-neural-networks" class="section level1">
 <h1><span class="header-section-number">Chapter 2</span> Deep Learning and Neural Networks</h1>
+<p>There’s not a lot of code in this chapter. It’s mostly concepts and mathematical review, so, not much here. But, we see our first model, and some functions are implemented to play around with.</p>
 <p>Definitely go check out <a href="https://playground.tensorflow.org/" class="uri">https://playground.tensorflow.org/</a> and play around - it’s a great learning tool!</p>
 <div id="fully-connected-layers" class="section level2">
 <h2><span class="header-section-number">2.1</span> Fully Connected layers</h2>
@@ -188,15 +189,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <a class="sourceLine" id="cb3-7" data-line-number="7"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">3</span>)</a></code></pre></div>
 <p>Now, what’s in the box?</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">summary</span>(model)</a></code></pre></div>
-<pre><code>## Model: &quot;sequential&quot;
+<pre><code>## Model: &quot;sequential_1&quot;
 ## ___________________________________________________________________________________________
 ## Layer (type)                            Output Shape                         Param #       
 ## ===========================================================================================
-## dense (Dense)                           (None, 5)                            25            
+## dense_3 (Dense)                         (None, 5)                            25            
 ## ___________________________________________________________________________________________
-## dense_1 (Dense)                         (None, 5)                            30            
+## dense_4 (Dense)                         (None, 5)                            30            
 ## ___________________________________________________________________________________________
-## dense_2 (Dense)                         (None, 3)                            18            
+## dense_5 (Dense)                         (None, 3)                            18            
 ## ===========================================================================================
 ## Total params: 73
 ## Trainable params: 73

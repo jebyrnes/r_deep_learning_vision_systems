@@ -9,6 +9,12 @@ github-repo: jebyrnes/r_deep_learning_vision_systems
 description: "This is an attempt to translate Deep Learning for Vision Systems into R code using the keras and tensorflow library."
 ---
 
+
+```{r setup}
+library(knitr)
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
 # This Project {-}
 
 ## Introduction {-}

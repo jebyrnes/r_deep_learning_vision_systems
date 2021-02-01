@@ -1,5 +1,7 @@
 # Deep Learning and Neural Networks
 
+Definitely go check out https://playground.tensorflow.org/ and play around - it's a great learning tool!
+
 ## Fully Connected layers
 ### Box on Page 48
 
@@ -20,3 +22,35 @@ Now, what's in the box?
 ```{r first_network_summary}
 summary(model)
 ```
+
+## 2.3.6 The Relu Function 
+
+Just a quick implementation
+
+```{r relu}
+relu <- function(x){
+  if(x < 0) return(0)
+  return(x)
+}
+
+#for example
+relu(-5)
+
+relu(3)
+```
+
+## 2.3.7 Leaky Relu
+I couldn't resist improving a bit here
+
+```{r leaky_relu}
+leaky_relu <- function(x, leak = 0.01){
+    if(x < 0) return(leak*x)
+  return(x)
+}
+
+#for example
+leaky_relu(-5)
+
+relu(3)
+```
+

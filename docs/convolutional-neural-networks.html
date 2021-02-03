@@ -174,95 +174,96 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="convolutional-neural-networks" class="section level1">
 <h1><span class="header-section-number">Chapter 3</span> Convolutional Neural Networks</h1>
 <p>We will start with…</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">library</span>(keras)</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="kw">library</span>(tensorflow)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(keras)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(tensorflow)</a></code></pre></div>
 <div id="image-classifications-with-mlp" class="section level2">
 <h2><span class="header-section-number">3.1</span> 3.1 Image Classifications with MLP</h2>
 <div id="input-layer" class="section level3">
 <h3><span class="header-section-number">3.1.1</span> 3.1.1 Input Layer</h3>
 <p>Let’s start by building a model that will begin by flattening a 28x28 image matrix into a vector.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">keras_model_sequential</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="st">  </span><span class="kw">layer_flatten</span>(<span class="dt">input_shape =</span> <span class="kw">c</span>(<span class="dv">28</span>,<span class="dv">28</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">keras_model_sequential</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="st">  </span><span class="kw">layer_flatten</span>(<span class="dt">input_shape =</span> <span class="kw">c</span>(<span class="dv">28</span>,<span class="dv">28</span>))</a></code></pre></div>
 <p>Great, now let’s add some hidden layers.</p>
 </div>
 <div id="hidden-layers" class="section level3">
 <h3><span class="header-section-number">3.1.2</span> 3.1.2 Hidden Layers</h3>
 <p>We want to add two dense layers with 512 nodes.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">model <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">512</span>, <span class="dt">activation =</span> <span class="st">&quot;relu&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">512</span>, <span class="dt">activation =</span> <span class="st">&quot;relu&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">model <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">512</span>, <span class="dt">activation =</span> <span class="st">&quot;relu&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">512</span>, <span class="dt">activation =</span> <span class="st">&quot;relu&quot;</span>)</a></code></pre></div>
 </div>
 <div id="output-layer" class="section level3">
 <h3><span class="header-section-number">3.1.3</span> 3.1.3 Output Layer</h3>
 <p>Now we need to add an output layer using softmax for the numbers 1-10.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">model <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb17-2" data-line-number="2"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">10</span>, <span class="dt">activation =</span> <span class="st">&quot;softmax&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">model <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">10</span>, <span class="dt">activation =</span> <span class="st">&quot;softmax&quot;</span>)</a></code></pre></div>
 <p>To see the whole model together - and what it produces</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="co">#sequential model</span></a>
-<a class="sourceLine" id="cb18-2" data-line-number="2">model &lt;-<span class="st"> </span><span class="kw">keras_model_sequential</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb18-3" data-line-number="3"><span class="st">  </span></a>
-<a class="sourceLine" id="cb18-4" data-line-number="4"><span class="st">  </span><span class="co">#flatten the input</span></a>
-<a class="sourceLine" id="cb18-5" data-line-number="5"><span class="st">  </span><span class="kw">layer_flatten</span>(<span class="dt">input_shape =</span> <span class="kw">c</span>(<span class="dv">28</span>,<span class="dv">28</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb18-6" data-line-number="6"><span class="st">  </span></a>
-<a class="sourceLine" id="cb18-7" data-line-number="7"><span class="st">  </span><span class="co">#two hidden layers</span></a>
-<a class="sourceLine" id="cb18-8" data-line-number="8"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">512</span>, <span class="dt">activation =</span> <span class="st">&quot;relu&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb18-9" data-line-number="9"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">512</span>, <span class="dt">activation =</span> <span class="st">&quot;relu&quot;</span>)<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb18-10" data-line-number="10"><span class="st">  </span></a>
-<a class="sourceLine" id="cb18-11" data-line-number="11"><span class="st">  </span><span class="co">#the output layer</span></a>
-<a class="sourceLine" id="cb18-12" data-line-number="12"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">10</span>, <span class="dt">activation =</span> <span class="st">&quot;softmax&quot;</span>)</a>
-<a class="sourceLine" id="cb18-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb18-14" data-line-number="14"><span class="kw">summary</span>(model)</a></code></pre></div>
-<pre><code>## Model: &quot;sequential_3&quot;
-## ____________________________________________________________________________________________________
-## Layer (type)                                 Output Shape                            Param #        
-## ====================================================================================================
-## flatten_2 (Flatten)                          (None, 784)                             0              
-## ____________________________________________________________________________________________________
-## dense_9 (Dense)                              (None, 512)                             401920         
-## ____________________________________________________________________________________________________
-## dense_10 (Dense)                             (None, 512)                             262656         
-## ____________________________________________________________________________________________________
-## dense_11 (Dense)                             (None, 10)                              5130           
-## ====================================================================================================
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co">#sequential model</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">model &lt;-<span class="st"> </span><span class="kw">keras_model_sequential</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="st">  </span><span class="co">#flatten the input</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="st">  </span><span class="kw">layer_flatten</span>(<span class="dt">input_shape =</span> <span class="kw">c</span>(<span class="dv">28</span>,<span class="dv">28</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="st">  </span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"><span class="st">  </span><span class="co">#two hidden layers</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">512</span>, <span class="dt">activation =</span> <span class="st">&quot;relu&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">512</span>, <span class="dt">activation =</span> <span class="st">&quot;relu&quot;</span>)<span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="st">  </span></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11"><span class="st">  </span><span class="co">#the output layer</span></a>
+<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">10</span>, <span class="dt">activation =</span> <span class="st">&quot;softmax&quot;</span>)</a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="kw">summary</span>(model)</a></code></pre></div>
+<pre><code>## Model: &quot;sequential_1&quot;
+## ________________________________________________________________________________
+## Layer (type)                        Output Shape                    Param #     
+## ================================================================================
+## flatten_1 (Flatten)                 (None, 784)                     0           
+## ________________________________________________________________________________
+## dense_3 (Dense)                     (None, 512)                     401920      
+## ________________________________________________________________________________
+## dense_4 (Dense)                     (None, 512)                     262656      
+## ________________________________________________________________________________
+## dense_5 (Dense)                     (None, 10)                      5130        
+## ================================================================================
 ## Total params: 669,706
 ## Trainable params: 669,706
 ## Non-trainable params: 0
-## ____________________________________________________________________________________________________</code></pre>
+## ________________________________________________________________________________</code></pre>
 </div>
 <div id="bonus---fit" class="section level3">
 <h3><span class="header-section-number">3.1.4</span> 3.1.3 BONUS - fit</h3>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="co"># fetch the data set from the the keras library</span></a>
-<a class="sourceLine" id="cb20-2" data-line-number="2">mnist &lt;-<span class="st"> </span><span class="kw">dataset_mnist</span>()</a>
-<a class="sourceLine" id="cb20-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb20-4" data-line-number="4">train_images &lt;-<span class="st"> </span>mnist<span class="op">$</span>train<span class="op">$</span>x <span class="op">/</span><span class="st"> </span><span class="dv">255</span> <span class="co">#some regularization</span></a>
-<a class="sourceLine" id="cb20-5" data-line-number="5">train_labels &lt;-<span class="st"> </span>mnist<span class="op">$</span>train<span class="op">$</span>y</a>
-<a class="sourceLine" id="cb20-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb20-7" data-line-number="7">test_images &lt;-<span class="st"> </span>mnist<span class="op">$</span>test<span class="op">$</span>x <span class="op">/</span><span class="st"> </span><span class="dv">255</span> <span class="co">#some regularization</span></a>
-<a class="sourceLine" id="cb20-8" data-line-number="8">test_labels &lt;-<span class="st"> </span>mnist<span class="op">$</span>test<span class="op">$</span>y</a></code></pre></div>
+<p>First, let’s grab the mnist from keras. We’ll regularize it to be between 0 and 1 to speed up convergence, and use <code>to_categorical()</code> for the labels so that we can use softmax</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># fetch the data set from the the keras library</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">mnist &lt;-<span class="st"> </span><span class="kw">dataset_mnist</span>()</a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">train_images &lt;-<span class="st"> </span>mnist<span class="op">$</span>train<span class="op">$</span>x <span class="op">/</span><span class="st"> </span><span class="dv">255</span> <span class="co">#some regularization</span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">train_labels &lt;-<span class="st"> </span><span class="kw">to_categorical</span>(mnist<span class="op">$</span>train<span class="op">$</span>y)</a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7">test_images &lt;-<span class="st"> </span>mnist<span class="op">$</span>test<span class="op">$</span>x <span class="op">/</span><span class="st"> </span><span class="dv">255</span> <span class="co">#some regularization</span></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8">test_labels &lt;-<span class="st"> </span><span class="kw">to_categorical</span>(mnist<span class="op">$</span>test<span class="op">$</span>y)</a></code></pre></div>
 <p>What do these images look like?</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">plot_mnist &lt;-<span class="st"> </span><span class="cf">function</span>(x){</a>
-<a class="sourceLine" id="cb21-2" data-line-number="2">    train_images[x,,] <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb21-3" data-line-number="3"><span class="st">    </span><span class="kw">as.raster</span>(<span class="dt">max =</span> <span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb21-4" data-line-number="4"><span class="st">    </span><span class="kw">plot</span>()</a>
-<a class="sourceLine" id="cb21-5" data-line-number="5">}</a>
-<a class="sourceLine" id="cb21-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb21-7" data-line-number="7"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb21-8" data-line-number="8"><span class="cf">for</span>(i <span class="cf">in</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">16</span>,<span class="dv">72</span>,<span class="dv">95</span>)) <span class="kw">plot_mnist</span>(i)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">plot_mnist &lt;-<span class="st"> </span><span class="cf">function</span>(x){</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2">    train_images[x,,] <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="st">    </span><span class="kw">as.raster</span>(<span class="dt">max =</span> <span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4"><span class="st">    </span><span class="kw">plot</span>()</a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">}</a>
+<a class="sourceLine" id="cb8-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb8-8" data-line-number="8"><span class="cf">for</span>(i <span class="cf">in</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">16</span>,<span class="dv">72</span>,<span class="dv">95</span>)) <span class="kw">plot_mnist</span>(i)</a></code></pre></div>
 <p><img src="r_deep_learning_vision_systems_files/figure-html/see_image-1.png" width="672" /></p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a></code></pre></div>
 <p>Let’s compile the network using stochastic gradient descent as our optimizer, examining the cateogircal crossentropy as our loss function and output the accuracy.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">model <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="st">  </span><span class="kw">compile</span>(</a>
-<a class="sourceLine" id="cb23-3" data-line-number="3">    <span class="dt">optimizer =</span> <span class="st">&quot;sgd&quot;</span>, <span class="co">#optimization algorithm</span></a>
-<a class="sourceLine" id="cb23-4" data-line-number="4">    <span class="dt">loss =</span> <span class="st">&quot;categorical_crossentropy&quot;</span>,</a>
-<a class="sourceLine" id="cb23-5" data-line-number="5">    <span class="dt">metrics =</span> <span class="kw">c</span>(<span class="st">&quot;accuracy&quot;</span>)</a>
-<a class="sourceLine" id="cb23-6" data-line-number="6">  )</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">model <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="st">  </span><span class="kw">compile</span>(</a>
+<a class="sourceLine" id="cb10-3" data-line-number="3">    <span class="dt">optimizer =</span> <span class="st">&quot;sgd&quot;</span>, <span class="co">#optimization algorithm</span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4">    <span class="dt">loss =</span> <span class="st">&quot;categorical_crossentropy&quot;</span>,</a>
+<a class="sourceLine" id="cb10-5" data-line-number="5">    <span class="dt">metrics =</span> <span class="kw">c</span>(<span class="st">&quot;accuracy&quot;</span>)</a>
+<a class="sourceLine" id="cb10-6" data-line-number="6">  )</a></code></pre></div>
 <p>Great! So…. let’s fit it!</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">model <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb24-2" data-line-number="2"><span class="st">  </span><span class="kw">fit</span>(<span class="dt">x =</span> train_images,</a>
-<a class="sourceLine" id="cb24-3" data-line-number="3">      <span class="dt">y =</span> train_labels,</a>
-<a class="sourceLine" id="cb24-4" data-line-number="4">      <span class="dt">epochs =</span> <span class="dv">5</span>,</a>
-<a class="sourceLine" id="cb24-5" data-line-number="5">      <span class="dt">batch_size =</span> <span class="dv">128</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">model <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="st">  </span><span class="kw">fit</span>(<span class="dt">x =</span> train_images,</a>
+<a class="sourceLine" id="cb11-3" data-line-number="3">      <span class="dt">y =</span> train_labels,</a>
+<a class="sourceLine" id="cb11-4" data-line-number="4">      <span class="dt">epochs =</span> <span class="dv">5</span>,</a>
+<a class="sourceLine" id="cb11-5" data-line-number="5">      <span class="dt">batch_size =</span> <span class="dv">128</span>)</a></code></pre></div>
 
 </div>
 </div>

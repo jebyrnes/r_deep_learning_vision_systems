@@ -5,6 +5,11 @@ box-on-page-48
 the-relu-function
 leaky-relu
 convolutional-neural-networks
+image-classifications-with-mlp
+input-layer
+hidden-layers
+output-layer
+bonus---fit
 structuring-deep-learning-projects-and-hyperparameter-tuning
 advanced-cnn-architectures
 object-detection-with-r-cnn-ssd-and-yolo

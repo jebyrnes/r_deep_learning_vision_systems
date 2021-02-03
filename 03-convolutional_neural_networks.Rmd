@@ -1,3 +1,108 @@
 # Convolutional Neural Networks
 
-Nothing here yet...
+
+We will start with...
+
+```{r cnn_init}
+library(keras)
+library(tensorflow)
+```
+
+## 3.1 Image Classifications with MLP
+### 3.1.1 Input Layer
+
+Let's start by building a model that will begin by flattening a 28x28 image matrix into a vector.
+
+```{r start_minst_mod}
+model <- keras_model_sequential() %>%
+  layer_flatten(input_shape = c(28,28))
+```  
+
+Great, now let's add some hidden layers.
+
+### 3.1.2 Hidden Layers
+
+We want to add two dense layers with 512 nodes.
+
+```{r add_dense_nodes}
+model %>% 
+  layer_dense(units = 512, activation = "relu") %>% 
+  layer_dense(units = 512, activation = "relu")
+
+```
+
+### 3.1.3 Output Layer
+
+Now we need to add an output layer using softmax for the numbers 1-10.
+
+```{r output_layer_minst}
+model %>%
+  layer_dense(units = 10, activation = "softmax")
+```
+
+
+To see the whole model together - and what it produces
+
+```{r minst_simple_mod}
+#sequential model
+model <- keras_model_sequential() %>%
+  
+  #flatten the input
+  layer_flatten(input_shape = c(28,28)) %>%
+  
+  #two hidden layers
+  layer_dense(units = 512, activation = "relu") %>% 
+  layer_dense(units = 512, activation = "relu")%>%
+  
+  #the output layer
+  layer_dense(units = 10, activation = "softmax")
+
+summary(model)
+```
+
+### 3.1.3 BONUS - fit
+```{r minst_fit_simple}
+# fetch the data set from the the keras library
+mnist <- dataset_mnist()
+
+train_images <- mnist$train$x / 255 #some regularization
+train_labels <- mnist$train$y
+
+test_images <- mnist$test$x / 255 #some regularization
+test_labels <- mnist$test$y
+```
+
+What do these images look like?
+
+```{r see_image}
+plot_mnist <- function(x){
+    train_images[x,,] %>% 
+    as.raster(max = 1) %>% 
+    plot()
+}
+
+par(mfrow = c(2,2))
+for(i in c(1,16,72,95)) plot_mnist(i)
+par(mfrow = c(1,1))
+```
+
+Let's compile the network using stochastic gradient descent as our optimizer, examining the cateogircal crossentropy as our loss function and output the accuracy. 
+
+```{r mnist_compile_simple}
+model %>%
+  compile(
+    optimizer = "sgd", #optimization algorithm
+    loss = "categorical_crossentropy",
+    metrics = c("accuracy")
+  )
+```
+
+Great! So.... let's fit it!
+
+```{r fit_simple_mnist, message=TRUE, eval = FALSE}
+model %>%
+  fit(x = train_images,
+      y = train_labels,
+      epochs = 5,
+      batch_size = 128)
+```

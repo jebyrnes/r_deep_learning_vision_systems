@@ -132,3 +132,79 @@ confusionMatrix(data = factor(pred_mnist, levels = 0:9),
 ```
 
 Pretty good. Some funkiness with fives and eights, but otherwise, pretty good.
+
+##  3.4 Image Classification using CNNs
+### 3.4.1 Building the model architecture
+
+OK, let's build a CNN to analyze MNIST.
+
+```{r model_cnn}
+model_cnn <- keras_model_sequential() %>%
+  
+  layer_conv_2d(filters = 32, kernel_size = c(3,3),
+                strides = 1, padding = "same",
+                activation = "relu", input_shape = c(28,28,1)) %>%
+  layer_max_pooling_2d(pool_size = c(2,2)) %>%
+  
+  layer_conv_2d(filters = 64, kernel_size = c(3,3),
+                strides = 1, padding = "same",
+                activation = "relu") %>%
+  layer_max_pooling_2d(pool_size = c(2,2)) %>%
+  
+  layer_flatten() %>%
+  layer_dense(units = 64, activation = "relu") %>%
+  layer_dense(units = 64, activation = "relu") %>%
+  layer_dense(units = 10, activation = "softmax")
+```  
+
+So, what does this look like?
+
+```{r modcov_summary}
+model_cnn
+```
+
+
+### Bonus: Let's fit this and compare performance
+
+First, we need to reshape the dimensions of the data a bit so that there is one layer (Black and White). Don't worry, we've already rescaled.
+
+```{r reshape_mnist}
+train_images_cnn <- array_reshape(train_images, c(nrow(train_images), 28, 28, 1))
+test_images_cnn <- array_reshape(test_images, c(nrow(test_images), 28, 28, 1))
+```
+
+```{r fit_cnn_mnist, cache = TRUE, cache.path="cache/"}
+model_cnn %>%
+  compile(
+    optimizer = "rmsprop", #optimization algorithm
+    loss = "categorical_crossentropy",
+    metrics = c("accuracy")
+  )
+
+history_cnn <- model_cnn %>%
+  fit(x = train_images_cnn,
+      y = train_labels,
+      epochs = 10,
+      batch_size = 128,
+      shuffle = TRUE)
+
+plot(history_cnn)
+```
+We can also evaluate it as before
+
+```{r eval_cnn}
+model_cnn %>% evaluate(test_images_cnn, test_labels)
+```
+
+Wow. That is a damn site better.
+
+And the confusion matrix and a breakdown by class.
+
+```{r confusion_cnn, message = FALSE, warning = FALSE}
+pred_mnist <- model %>% predict_classes(test_images)
+
+confusionMatrix(data = factor(pred_mnist, levels = 0:9), 
+                reference = factor(mnist$test$y, levels = 0:9))
+```
+
+Also here. Excellent.

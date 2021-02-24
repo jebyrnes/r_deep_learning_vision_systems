@@ -278,8 +278,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><img src="r_deep_learning_vision_systems_files/figure-html/fit_simple_mnist-1.png" width="672" /></p>
 <p>We can also evaluate this model against test data.</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">evaluate</span>(test_images, test_labels)</a></code></pre></div>
-<pre><code>##      loss  accuracy 
-## 0.2045485 0.9425000</code></pre>
+<pre><code>##     loss accuracy 
+## 2.341203 0.081200</code></pre>
 <p>Look at that accuracy! Not bad!</p>
 <p>Let’s look in more detail with <code>caret</code> and see how well more model behaves for each number.</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw">library</span>(caret)</a>
@@ -290,50 +290,180 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>## Confusion Matrix and Statistics
 ## 
 ##           Reference
-## Prediction    0    1    2    3    4    5    6    7    8    9
-##          0  961    0    6    0    1    9    9    0    4   10
-##          1    0 1111    3    0    2    1    3    7    2    8
-##          2    2    2  950    7    4    0    4   20    4    1
-##          3    3    2   17  961    2   31    1    7   20   12
-##          4    0    1   10    0  925    4    9    7    9   23
-##          5    5    1    2   15    0  810   13    0   16    5
-##          6    6    4    8    1   11   12  916    0   11    1
-##          7    1    1   11   11    2    3    2  964    9   10
-##          8    2   13   23   13    5   16    1    3  894    6
-##          9    0    0    2    2   30    6    0   20    5  933
+## Prediction   0   1   2   3   4   5   6   7   8   9
+##          0   3   0   1   0   4   0   0   7   1   2
+##          1   0   3  10   0   1   0   1   0   1   4
+##          2 237 106 125  74 182 347  24 443 298 350
+##          3  97 107 291 289 175 121 132  91 190  69
+##          4  15  13  20   4   6  21  14  30   3  12
+##          5 624 899 583 638 607 386 777 457 476 569
+##          6   2   0   0   1   5   3   0   0   1   0
+##          7   1   7   1   1   2   2   3   0   3   3
+##          8   0   0   0   0   0   0   0   0   0   0
+##          9   1   0   1   3   0  12   7   0   1   0
 ## 
 ## Overall Statistics
-##                                          
-##                Accuracy : 0.9425         
-##                  95% CI : (0.9378, 0.947)
-##     No Information Rate : 0.1135         
-##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16      
-##                                          
-##                   Kappa : 0.9361         
-##                                          
-##  Mcnemar&#39;s Test P-Value : NA             
+##                                           
+##                Accuracy : 0.0812          
+##                  95% CI : (0.0759, 0.0867)
+##     No Information Rate : 0.1135          
+##     P-Value [Acc &gt; NIR] : 1               
+##                                           
+##                   Kappa : -0.0145         
+##                                           
+##  Mcnemar&#39;s Test P-Value : NA              
 ## 
 ## Statistics by Class:
 ## 
 ##                      Class: 0 Class: 1 Class: 2 Class: 3 Class: 4 Class: 5
-## Sensitivity            0.9806   0.9789   0.9205   0.9515   0.9420   0.9081
-## Specificity            0.9957   0.9971   0.9951   0.9894   0.9930   0.9937
-## Pos Pred Value         0.9610   0.9771   0.9557   0.9100   0.9362   0.9343
-## Neg Pred Value         0.9979   0.9973   0.9909   0.9945   0.9937   0.9910
-## Prevalence             0.0980   0.1135   0.1032   0.1010   0.0982   0.0892
-## Detection Rate         0.0961   0.1111   0.0950   0.0961   0.0925   0.0810
-## Detection Prevalence   0.1000   0.1137   0.0994   0.1056   0.0988   0.0867
-## Balanced Accuracy      0.9881   0.9880   0.9578   0.9705   0.9675   0.9509
+## Sensitivity          0.003061 0.002643  0.12112   0.2861  0.00611  0.43274
+## Specificity          0.998337 0.998082  0.77018   0.8584  0.98536  0.38186
+## Pos Pred Value       0.166667 0.150000  0.05718   0.1850  0.04348  0.06416
+## Neg Pred Value       0.902124 0.886573  0.88393   0.9146  0.90103  0.87299
+## Prevalence           0.098000 0.113500  0.10320   0.1010  0.09820  0.08920
+## Detection Rate       0.000300 0.000300  0.01250   0.0289  0.00060  0.03860
+## Detection Prevalence 0.001800 0.002000  0.21860   0.1562  0.01380  0.60160
+## Balanced Accuracy    0.500699 0.500363  0.44565   0.5723  0.49574  0.40730
 ##                      Class: 6 Class: 7 Class: 8 Class: 9
-## Sensitivity            0.9562   0.9377   0.9179   0.9247
-## Specificity            0.9940   0.9944   0.9909   0.9928
-## Pos Pred Value         0.9443   0.9507   0.9160   0.9349
-## Neg Pred Value         0.9953   0.9929   0.9911   0.9916
+## Sensitivity            0.0000   0.0000   0.0000   0.0000
+## Specificity            0.9987   0.9974   1.0000   0.9972
+## Pos Pred Value         0.0000   0.0000      NaN   0.0000
+## Neg Pred Value         0.9041   0.8970   0.9026   0.8988
 ## Prevalence             0.0958   0.1028   0.0974   0.1009
-## Detection Rate         0.0916   0.0964   0.0894   0.0933
-## Detection Prevalence   0.0970   0.1014   0.0976   0.0998
-## Balanced Accuracy      0.9751   0.9661   0.9544   0.9587</code></pre>
+## Detection Rate         0.0000   0.0000   0.0000   0.0000
+## Detection Prevalence   0.0012   0.0023   0.0000   0.0025
+## Balanced Accuracy      0.4993   0.4987   0.5000   0.4986</code></pre>
 <p>Pretty good. Some funkiness with fives and eights, but otherwise, pretty good.</p>
+</div>
+</div>
+<div id="image-classification-using-cnns" class="section level2">
+<h2><span class="header-section-number">3.2</span> 3.4 Image Classification using CNNs</h2>
+<div id="building-the-model-architecture" class="section level3">
+<h3><span class="header-section-number">3.2.1</span> 3.4.1 Building the model architecture</h3>
+<p>OK, let’s build a CNN to analyze MNIST.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">model_cnn &lt;-<span class="st"> </span><span class="kw">keras_model_sequential</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb25-2" data-line-number="2"><span class="st">  </span></a>
+<a class="sourceLine" id="cb25-3" data-line-number="3"><span class="st">  </span><span class="kw">layer_conv_2d</span>(<span class="dt">filters =</span> <span class="dv">32</span>, <span class="dt">kernel_size =</span> <span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">3</span>),</a>
+<a class="sourceLine" id="cb25-4" data-line-number="4">                <span class="dt">strides =</span> <span class="dv">1</span>, <span class="dt">padding =</span> <span class="st">&quot;same&quot;</span>,</a>
+<a class="sourceLine" id="cb25-5" data-line-number="5">                <span class="dt">activation =</span> <span class="st">&quot;relu&quot;</span>, <span class="dt">input_shape =</span> <span class="kw">c</span>(<span class="dv">28</span>,<span class="dv">28</span>,<span class="dv">1</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb25-6" data-line-number="6"><span class="st">  </span><span class="kw">layer_max_pooling_2d</span>(<span class="dt">pool_size =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb25-7" data-line-number="7"><span class="st">  </span></a>
+<a class="sourceLine" id="cb25-8" data-line-number="8"><span class="st">  </span><span class="kw">layer_conv_2d</span>(<span class="dt">filters =</span> <span class="dv">64</span>, <span class="dt">kernel_size =</span> <span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">3</span>),</a>
+<a class="sourceLine" id="cb25-9" data-line-number="9">                <span class="dt">strides =</span> <span class="dv">1</span>, <span class="dt">padding =</span> <span class="st">&quot;same&quot;</span>,</a>
+<a class="sourceLine" id="cb25-10" data-line-number="10">                <span class="dt">activation =</span> <span class="st">&quot;relu&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb25-11" data-line-number="11"><span class="st">  </span><span class="kw">layer_max_pooling_2d</span>(<span class="dt">pool_size =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb25-12" data-line-number="12"><span class="st">  </span></a>
+<a class="sourceLine" id="cb25-13" data-line-number="13"><span class="st">  </span><span class="kw">layer_flatten</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb25-14" data-line-number="14"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">64</span>, <span class="dt">activation =</span> <span class="st">&quot;relu&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb25-15" data-line-number="15"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">64</span>, <span class="dt">activation =</span> <span class="st">&quot;relu&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb25-16" data-line-number="16"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">10</span>, <span class="dt">activation =</span> <span class="st">&quot;softmax&quot;</span>)</a></code></pre></div>
+<p>So, what does this look like?</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">model_cnn</a></code></pre></div>
+<pre><code>## Model
+## Model: &quot;sequential_2&quot;
+## ________________________________________________________________________________
+## Layer (type)                        Output Shape                    Param #     
+## ================================================================================
+## conv2d (Conv2D)                     (None, 28, 28, 32)              320         
+## ________________________________________________________________________________
+## max_pooling2d (MaxPooling2D)        (None, 14, 14, 32)              0           
+## ________________________________________________________________________________
+## conv2d_1 (Conv2D)                   (None, 14, 14, 64)              18496       
+## ________________________________________________________________________________
+## max_pooling2d_1 (MaxPooling2D)      (None, 7, 7, 64)                0           
+## ________________________________________________________________________________
+## flatten_2 (Flatten)                 (None, 3136)                    0           
+## ________________________________________________________________________________
+## dense_6 (Dense)                     (None, 64)                      200768      
+## ________________________________________________________________________________
+## dense_7 (Dense)                     (None, 64)                      4160        
+## ________________________________________________________________________________
+## dense_8 (Dense)                     (None, 10)                      650         
+## ================================================================================
+## Total params: 224,394
+## Trainable params: 224,394
+## Non-trainable params: 0
+## ________________________________________________________________________________</code></pre>
+</div>
+<div id="bonus-lets-fit-this-and-compare-performance" class="section level3">
+<h3><span class="header-section-number">3.2.2</span> Bonus: Let’s fit this and compare performance</h3>
+<p>First, we need to reshape the dimensions of the data a bit so that there is one layer (Black and White). Don’t worry, we’ve already rescaled.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">train_images_cnn &lt;-<span class="st"> </span><span class="kw">array_reshape</span>(train_images, <span class="kw">c</span>(<span class="kw">nrow</span>(train_images), <span class="dv">28</span>, <span class="dv">28</span>, <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb28-2" data-line-number="2">test_images_cnn &lt;-<span class="st"> </span><span class="kw">array_reshape</span>(test_images, <span class="kw">c</span>(<span class="kw">nrow</span>(test_images), <span class="dv">28</span>, <span class="dv">28</span>, <span class="dv">1</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">model_cnn <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb29-2" data-line-number="2"><span class="st">  </span><span class="kw">compile</span>(</a>
+<a class="sourceLine" id="cb29-3" data-line-number="3">    <span class="dt">optimizer =</span> <span class="st">&quot;rmsprop&quot;</span>, <span class="co">#optimization algorithm</span></a>
+<a class="sourceLine" id="cb29-4" data-line-number="4">    <span class="dt">loss =</span> <span class="st">&quot;categorical_crossentropy&quot;</span>,</a>
+<a class="sourceLine" id="cb29-5" data-line-number="5">    <span class="dt">metrics =</span> <span class="kw">c</span>(<span class="st">&quot;accuracy&quot;</span>)</a>
+<a class="sourceLine" id="cb29-6" data-line-number="6">  )</a>
+<a class="sourceLine" id="cb29-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb29-8" data-line-number="8">history_cnn &lt;-<span class="st"> </span>model_cnn <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb29-9" data-line-number="9"><span class="st">  </span><span class="kw">fit</span>(<span class="dt">x =</span> train_images_cnn,</a>
+<a class="sourceLine" id="cb29-10" data-line-number="10">      <span class="dt">y =</span> train_labels,</a>
+<a class="sourceLine" id="cb29-11" data-line-number="11">      <span class="dt">epochs =</span> <span class="dv">10</span>,</a>
+<a class="sourceLine" id="cb29-12" data-line-number="12">      <span class="dt">batch_size =</span> <span class="dv">128</span>,</a>
+<a class="sourceLine" id="cb29-13" data-line-number="13">      <span class="dt">shuffle =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb29-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb29-15" data-line-number="15"><span class="kw">plot</span>(history_cnn)</a></code></pre></div>
+<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<p><img src="r_deep_learning_vision_systems_files/figure-html/fit_cnn_mnist-1.png" width="672" />
+We can also evaluate it as before</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">model_cnn <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">evaluate</span>(test_images_cnn, test_labels)</a></code></pre></div>
+<pre><code>##       loss   accuracy 
+## 0.02882044 0.99210000</code></pre>
+<p>Wow. That is a damn site better.</p>
+<p>And the confusion matrix and a breakdown by class.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">pred_mnist &lt;-<span class="st"> </span>model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">predict_classes</span>(test_images)</a>
+<a class="sourceLine" id="cb33-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb33-3" data-line-number="3"><span class="kw">confusionMatrix</span>(<span class="dt">data =</span> <span class="kw">factor</span>(pred_mnist, <span class="dt">levels =</span> <span class="dv">0</span><span class="op">:</span><span class="dv">9</span>), </a>
+<a class="sourceLine" id="cb33-4" data-line-number="4">                <span class="dt">reference =</span> <span class="kw">factor</span>(mnist<span class="op">$</span>test<span class="op">$</span>y, <span class="dt">levels =</span> <span class="dv">0</span><span class="op">:</span><span class="dv">9</span>))</a></code></pre></div>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction   0   1   2   3   4   5   6   7   8   9
+##          0   3   0   1   0   4   0   0   7   1   2
+##          1   0   3  10   0   1   0   1   0   1   4
+##          2 237 106 125  74 182 347  24 443 298 350
+##          3  97 107 291 289 175 121 132  91 190  69
+##          4  15  13  20   4   6  21  14  30   3  12
+##          5 624 899 583 638 607 386 777 457 476 569
+##          6   2   0   0   1   5   3   0   0   1   0
+##          7   1   7   1   1   2   2   3   0   3   3
+##          8   0   0   0   0   0   0   0   0   0   0
+##          9   1   0   1   3   0  12   7   0   1   0
+## 
+## Overall Statistics
+##                                           
+##                Accuracy : 0.0812          
+##                  95% CI : (0.0759, 0.0867)
+##     No Information Rate : 0.1135          
+##     P-Value [Acc &gt; NIR] : 1               
+##                                           
+##                   Kappa : -0.0145         
+##                                           
+##  Mcnemar&#39;s Test P-Value : NA              
+## 
+## Statistics by Class:
+## 
+##                      Class: 0 Class: 1 Class: 2 Class: 3 Class: 4 Class: 5
+## Sensitivity          0.003061 0.002643  0.12112   0.2861  0.00611  0.43274
+## Specificity          0.998337 0.998082  0.77018   0.8584  0.98536  0.38186
+## Pos Pred Value       0.166667 0.150000  0.05718   0.1850  0.04348  0.06416
+## Neg Pred Value       0.902124 0.886573  0.88393   0.9146  0.90103  0.87299
+## Prevalence           0.098000 0.113500  0.10320   0.1010  0.09820  0.08920
+## Detection Rate       0.000300 0.000300  0.01250   0.0289  0.00060  0.03860
+## Detection Prevalence 0.001800 0.002000  0.21860   0.1562  0.01380  0.60160
+## Balanced Accuracy    0.500699 0.500363  0.44565   0.5723  0.49574  0.40730
+##                      Class: 6 Class: 7 Class: 8 Class: 9
+## Sensitivity            0.0000   0.0000   0.0000   0.0000
+## Specificity            0.9987   0.9974   1.0000   0.9972
+## Pos Pred Value         0.0000   0.0000      NaN   0.0000
+## Neg Pred Value         0.9041   0.8970   0.9026   0.8988
+## Prevalence             0.0958   0.1028   0.0974   0.1009
+## Detection Rate         0.0000   0.0000   0.0000   0.0000
+## Detection Prevalence   0.0012   0.0023   0.0000   0.0025
+## Balanced Accuracy      0.4993   0.4987   0.5000   0.4986</code></pre>
+<p>Also here. Excellent.</p>
 
 </div>
 </div>

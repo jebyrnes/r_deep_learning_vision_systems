@@ -165,174 +165,158 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="convolutional-neural-networks" class="section level1">
 <h1><span class="header-section-number">Chapter 3</span> Convolutional Neural Networks</h1>
 <p>We will start with…</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(generics)</a></code></pre></div>
-<pre><code>## 
-## Attaching package: &#39;generics&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     as.difftime, as.factor, as.ordered, intersect, is.element, setdiff,
-##     setequal, union</code></pre>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">library</span>(keras)</a></code></pre></div>
-<pre><code>## 
-## Attaching package: &#39;keras&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:generics&#39;:
-## 
-##     evaluate</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">library</span>(tensorflow)</a></code></pre></div>
-<pre><code>## 
-## Attaching package: &#39;tensorflow&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:generics&#39;:
-## 
-##     evaluate, train</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">library</span>(generics)</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="kw">library</span>(keras)</a>
+<a class="sourceLine" id="cb14-3" data-line-number="3"><span class="kw">library</span>(tensorflow)</a></code></pre></div>
 <div id="image-classifications-with-mlp" class="section level2">
 <h2><span class="header-section-number">3.1</span> 3.1 Image Classifications with MLP</h2>
 <div id="input-layer" class="section level3">
 <h3><span class="header-section-number">3.1.1</span> 3.1.1 Input Layer</h3>
 <p>Let’s start by building a model that will begin by flattening a 28x28 image matrix into a vector.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">keras_model_sequential</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="st">  </span><span class="kw">layer_flatten</span>(<span class="dt">input_shape =</span> <span class="kw">c</span>(<span class="dv">28</span>,<span class="dv">28</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1">model &lt;-<span class="st"> </span><span class="kw">keras_model_sequential</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="st">  </span><span class="kw">layer_flatten</span>(<span class="dt">input_shape =</span> <span class="kw">c</span>(<span class="dv">28</span>,<span class="dv">28</span>))</a></code></pre></div>
 <p>Great, now let’s add some hidden layers.</p>
 </div>
 <div id="hidden-layers" class="section level3">
 <h3><span class="header-section-number">3.1.2</span> 3.1.2 Hidden Layers</h3>
 <p>We want to add two dense layers with 512 nodes.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">model <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">512</span>, <span class="dt">activation =</span> <span class="st">&quot;relu&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">512</span>, <span class="dt">activation =</span> <span class="st">&quot;relu&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">model <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">512</span>, <span class="dt">activation =</span> <span class="st">&quot;relu&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">512</span>, <span class="dt">activation =</span> <span class="st">&quot;relu&quot;</span>)</a></code></pre></div>
 </div>
 <div id="output-layer" class="section level3">
 <h3><span class="header-section-number">3.1.3</span> 3.1.3 Output Layer</h3>
 <p>Now we need to add an output layer using softmax for the numbers 1-10.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">model <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">10</span>, <span class="dt">activation =</span> <span class="st">&quot;softmax&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">model <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb17-2" data-line-number="2"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">10</span>, <span class="dt">activation =</span> <span class="st">&quot;softmax&quot;</span>)</a></code></pre></div>
 <p>To see the whole model together - and what it produces</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co">#sequential model</span></a>
-<a class="sourceLine" id="cb13-2" data-line-number="2">model &lt;-<span class="st"> </span><span class="kw">keras_model_sequential</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb13-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="st">  </span><span class="co">#flatten the input</span></a>
-<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="st">  </span><span class="kw">layer_flatten</span>(<span class="dt">input_shape =</span> <span class="kw">c</span>(<span class="dv">28</span>,<span class="dv">28</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb13-6" data-line-number="6"><span class="st">  </span></a>
-<a class="sourceLine" id="cb13-7" data-line-number="7"><span class="st">  </span><span class="co">#two hidden layers</span></a>
-<a class="sourceLine" id="cb13-8" data-line-number="8"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">512</span>, <span class="dt">activation =</span> <span class="st">&quot;relu&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb13-9" data-line-number="9"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">512</span>, <span class="dt">activation =</span> <span class="st">&quot;relu&quot;</span>)<span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb13-10" data-line-number="10"><span class="st">  </span></a>
-<a class="sourceLine" id="cb13-11" data-line-number="11"><span class="st">  </span><span class="co">#the output layer</span></a>
-<a class="sourceLine" id="cb13-12" data-line-number="12"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">10</span>, <span class="dt">activation =</span> <span class="st">&quot;softmax&quot;</span>)</a>
-<a class="sourceLine" id="cb13-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb13-14" data-line-number="14"><span class="kw">summary</span>(model)</a></code></pre></div>
-<pre><code>## Model: &quot;sequential_1&quot;
-## ________________________________________________________________________________
-## Layer (type)                        Output Shape                    Param #     
-## ================================================================================
-## flatten_1 (Flatten)                 (None, 784)                     0           
-## ________________________________________________________________________________
-## dense_3 (Dense)                     (None, 512)                     401920      
-## ________________________________________________________________________________
-## dense_4 (Dense)                     (None, 512)                     262656      
-## ________________________________________________________________________________
-## dense_5 (Dense)                     (None, 10)                      5130        
-## ================================================================================
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="co">#sequential model</span></a>
+<a class="sourceLine" id="cb18-2" data-line-number="2">model &lt;-<span class="st"> </span><span class="kw">keras_model_sequential</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb18-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb18-4" data-line-number="4"><span class="st">  </span><span class="co">#flatten the input</span></a>
+<a class="sourceLine" id="cb18-5" data-line-number="5"><span class="st">  </span><span class="kw">layer_flatten</span>(<span class="dt">input_shape =</span> <span class="kw">c</span>(<span class="dv">28</span>,<span class="dv">28</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb18-6" data-line-number="6"><span class="st">  </span></a>
+<a class="sourceLine" id="cb18-7" data-line-number="7"><span class="st">  </span><span class="co">#two hidden layers</span></a>
+<a class="sourceLine" id="cb18-8" data-line-number="8"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">512</span>, <span class="dt">activation =</span> <span class="st">&quot;relu&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb18-9" data-line-number="9"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">512</span>, <span class="dt">activation =</span> <span class="st">&quot;relu&quot;</span>)<span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb18-10" data-line-number="10"><span class="st">  </span></a>
+<a class="sourceLine" id="cb18-11" data-line-number="11"><span class="st">  </span><span class="co">#the output layer</span></a>
+<a class="sourceLine" id="cb18-12" data-line-number="12"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">10</span>, <span class="dt">activation =</span> <span class="st">&quot;softmax&quot;</span>)</a>
+<a class="sourceLine" id="cb18-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb18-14" data-line-number="14"><span class="kw">summary</span>(model)</a></code></pre></div>
+<pre><code>## Model: &quot;sequential_9&quot;
+## ______________________________________________________________________________________________
+## Layer (type)                              Output Shape                         Param #        
+## ==============================================================================================
+## flatten_7 (Flatten)                       (None, 784)                          0              
+## ______________________________________________________________________________________________
+## dense_23 (Dense)                          (None, 512)                          401920         
+## ______________________________________________________________________________________________
+## dense_24 (Dense)                          (None, 512)                          262656         
+## ______________________________________________________________________________________________
+## dense_25 (Dense)                          (None, 10)                           5130           
+## ==============================================================================================
 ## Total params: 669,706
 ## Trainable params: 669,706
 ## Non-trainable params: 0
-## ________________________________________________________________________________</code></pre>
+## ______________________________________________________________________________________________</code></pre>
 </div>
 <div id="bonus---fit" class="section level3">
 <h3><span class="header-section-number">3.1.4</span> 3.1.3 BONUS - fit</h3>
 <p>First, let’s grab the mnist from keras. We’ll regularize it to be between 0 and 1 to speed up convergence, and use <code>to_categorical()</code> for the labels so that we can use softmax</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="co"># fetch the data set from the the keras library</span></a>
-<a class="sourceLine" id="cb15-2" data-line-number="2">mnist &lt;-<span class="st"> </span><span class="kw">dataset_mnist</span>()</a>
-<a class="sourceLine" id="cb15-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb15-4" data-line-number="4">train_images &lt;-<span class="st"> </span>mnist<span class="op">$</span>train<span class="op">$</span>x <span class="op">/</span><span class="st"> </span><span class="dv">255</span> <span class="co">#some regularization</span></a>
-<a class="sourceLine" id="cb15-5" data-line-number="5">train_labels &lt;-<span class="st"> </span><span class="kw">to_categorical</span>(mnist<span class="op">$</span>train<span class="op">$</span>y)</a>
-<a class="sourceLine" id="cb15-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb15-7" data-line-number="7">test_images &lt;-<span class="st"> </span>mnist<span class="op">$</span>test<span class="op">$</span>x <span class="op">/</span><span class="st"> </span><span class="dv">255</span> <span class="co">#some regularization</span></a>
-<a class="sourceLine" id="cb15-8" data-line-number="8">test_labels &lt;-<span class="st"> </span><span class="kw">to_categorical</span>(mnist<span class="op">$</span>test<span class="op">$</span>y)</a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="co"># fetch the data set from the the keras library</span></a>
+<a class="sourceLine" id="cb20-2" data-line-number="2">mnist &lt;-<span class="st"> </span><span class="kw">dataset_mnist</span>()</a>
+<a class="sourceLine" id="cb20-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb20-4" data-line-number="4">train_images &lt;-<span class="st"> </span>mnist<span class="op">$</span>train<span class="op">$</span>x <span class="op">/</span><span class="st"> </span><span class="dv">255</span> <span class="co">#some regularization</span></a>
+<a class="sourceLine" id="cb20-5" data-line-number="5">train_labels &lt;-<span class="st"> </span><span class="kw">to_categorical</span>(mnist<span class="op">$</span>train<span class="op">$</span>y)</a>
+<a class="sourceLine" id="cb20-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb20-7" data-line-number="7">test_images &lt;-<span class="st"> </span>mnist<span class="op">$</span>test<span class="op">$</span>x <span class="op">/</span><span class="st"> </span><span class="dv">255</span> <span class="co">#some regularization</span></a>
+<a class="sourceLine" id="cb20-8" data-line-number="8">test_labels &lt;-<span class="st"> </span><span class="kw">to_categorical</span>(mnist<span class="op">$</span>test<span class="op">$</span>y)</a></code></pre></div>
 <p>What do these images look like?</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">plot_mnist &lt;-<span class="st"> </span><span class="cf">function</span>(x){</a>
-<a class="sourceLine" id="cb16-2" data-line-number="2">    train_images[x,,] <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="st">    </span><span class="kw">as.raster</span>(<span class="dt">max =</span> <span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="st">    </span><span class="kw">plot</span>()</a>
-<a class="sourceLine" id="cb16-5" data-line-number="5">}</a>
-<a class="sourceLine" id="cb16-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb16-7" data-line-number="7"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb16-8" data-line-number="8"><span class="cf">for</span>(i <span class="cf">in</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">16</span>,<span class="dv">72</span>,<span class="dv">95</span>)) <span class="kw">plot_mnist</span>(i)</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">plot_mnist &lt;-<span class="st"> </span><span class="cf">function</span>(x){</a>
+<a class="sourceLine" id="cb21-2" data-line-number="2">    train_images[x,,] <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb21-3" data-line-number="3"><span class="st">    </span><span class="kw">as.raster</span>(<span class="dt">max =</span> <span class="dv">1</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb21-4" data-line-number="4"><span class="st">    </span><span class="kw">plot</span>()</a>
+<a class="sourceLine" id="cb21-5" data-line-number="5">}</a>
+<a class="sourceLine" id="cb21-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb21-7" data-line-number="7"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>))</a>
+<a class="sourceLine" id="cb21-8" data-line-number="8"><span class="cf">for</span>(i <span class="cf">in</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">16</span>,<span class="dv">72</span>,<span class="dv">95</span>)) <span class="kw">plot_mnist</span>(i)</a></code></pre></div>
 <p><img src="r_deep_learning_vision_systems_files/figure-html/see_image-1.png" width="672" /></p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>))</a></code></pre></div>
 <p>Let’s compile the network using stochastic gradient descent as our optimizer, examining the cateogircal crossentropy as our loss function and output the accuracy.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">model <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb18-2" data-line-number="2"><span class="st">  </span><span class="kw">compile</span>(</a>
-<a class="sourceLine" id="cb18-3" data-line-number="3">    <span class="dt">optimizer =</span> <span class="st">&quot;sgd&quot;</span>, <span class="co">#optimization algorithm</span></a>
-<a class="sourceLine" id="cb18-4" data-line-number="4">    <span class="dt">loss =</span> <span class="st">&quot;categorical_crossentropy&quot;</span>,</a>
-<a class="sourceLine" id="cb18-5" data-line-number="5">    <span class="dt">metrics =</span> <span class="kw">c</span>(<span class="st">&quot;accuracy&quot;</span>)</a>
-<a class="sourceLine" id="cb18-6" data-line-number="6">  )</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">model <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="st">  </span><span class="kw">compile</span>(</a>
+<a class="sourceLine" id="cb23-3" data-line-number="3">    <span class="dt">optimizer =</span> <span class="st">&quot;rmsprop&quot;</span>, <span class="co">#optimization algorithm</span></a>
+<a class="sourceLine" id="cb23-4" data-line-number="4">    <span class="dt">loss =</span> <span class="st">&quot;categorical_crossentropy&quot;</span>,</a>
+<a class="sourceLine" id="cb23-5" data-line-number="5">    <span class="dt">metrics =</span> <span class="kw">c</span>(<span class="st">&quot;accuracy&quot;</span>)</a>
+<a class="sourceLine" id="cb23-6" data-line-number="6">  )</a></code></pre></div>
 <p>Great! So…. let’s fit it!</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">history &lt;-<span class="st"> </span>model <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="st">  </span><span class="kw">fit</span>(<span class="dt">x =</span> train_images,</a>
-<a class="sourceLine" id="cb19-3" data-line-number="3">      <span class="dt">y =</span> train_labels,</a>
-<a class="sourceLine" id="cb19-4" data-line-number="4">      <span class="dt">epochs =</span> <span class="dv">10</span>,</a>
-<a class="sourceLine" id="cb19-5" data-line-number="5">      <span class="dt">batch_size =</span> <span class="dv">128</span>)</a>
-<a class="sourceLine" id="cb19-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb19-7" data-line-number="7"><span class="kw">plot</span>(history)</a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">history &lt;-<span class="st"> </span>model <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb24-2" data-line-number="2"><span class="st">  </span><span class="kw">fit</span>(<span class="dt">x =</span> train_images,</a>
+<a class="sourceLine" id="cb24-3" data-line-number="3">      <span class="dt">y =</span> train_labels,</a>
+<a class="sourceLine" id="cb24-4" data-line-number="4">      <span class="dt">epochs =</span> <span class="dv">10</span>,</a>
+<a class="sourceLine" id="cb24-5" data-line-number="5">      <span class="dt">batch_size =</span> <span class="dv">128</span>)</a>
+<a class="sourceLine" id="cb24-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb24-7" data-line-number="7"><span class="kw">plot</span>(history)</a></code></pre></div>
 <pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <p><img src="r_deep_learning_vision_systems_files/figure-html/fit_simple_mnist-1.png" width="672" /></p>
 <p>We can also evaluate this model against test data.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">evaluate</span>(test_images, test_labels)</a></code></pre></div>
-<pre><code>##     loss accuracy 
-## 2.341203 0.081200</code></pre>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">evaluate</span>(test_images, test_labels)</a></code></pre></div>
+<pre><code>##      loss  accuracy 
+## 0.1211862 0.9787000</code></pre>
 <p>Look at that accuracy! Not bad!</p>
 <p>Let’s look in more detail with <code>caret</code> and see how well more model behaves for each number.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw">library</span>(caret)</a>
-<a class="sourceLine" id="cb23-2" data-line-number="2">pred_mnist &lt;-<span class="st"> </span>model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">predict_classes</span>(test_images)</a>
-<a class="sourceLine" id="cb23-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb23-4" data-line-number="4"><span class="kw">confusionMatrix</span>(<span class="dt">data =</span> <span class="kw">factor</span>(pred_mnist, <span class="dt">levels =</span> <span class="dv">0</span><span class="op">:</span><span class="dv">9</span>), </a>
-<a class="sourceLine" id="cb23-5" data-line-number="5">                <span class="dt">reference =</span> <span class="kw">factor</span>(mnist<span class="op">$</span>test<span class="op">$</span>y, <span class="dt">levels =</span> <span class="dv">0</span><span class="op">:</span><span class="dv">9</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="kw">library</span>(caret)</a>
+<a class="sourceLine" id="cb28-2" data-line-number="2">pred_mnist &lt;-<span class="st"> </span>model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">predict_classes</span>(test_images)</a>
+<a class="sourceLine" id="cb28-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb28-4" data-line-number="4"><span class="kw">confusionMatrix</span>(<span class="dt">data =</span> <span class="kw">factor</span>(pred_mnist, <span class="dt">levels =</span> <span class="dv">0</span><span class="op">:</span><span class="dv">9</span>), </a>
+<a class="sourceLine" id="cb28-5" data-line-number="5">                <span class="dt">reference =</span> <span class="kw">factor</span>(mnist<span class="op">$</span>test<span class="op">$</span>y, <span class="dt">levels =</span> <span class="dv">0</span><span class="op">:</span><span class="dv">9</span>))</a></code></pre></div>
 <pre><code>## Confusion Matrix and Statistics
 ## 
 ##           Reference
-## Prediction   0   1   2   3   4   5   6   7   8   9
-##          0   3   0   1   0   4   0   0   7   1   2
-##          1   0   3  10   0   1   0   1   0   1   4
-##          2 237 106 125  74 182 347  24 443 298 350
-##          3  97 107 291 289 175 121 132  91 190  69
-##          4  15  13  20   4   6  21  14  30   3  12
-##          5 624 899 583 638 607 386 777 457 476 569
-##          6   2   0   0   1   5   3   0   0   1   0
-##          7   1   7   1   1   2   2   3   0   3   3
-##          8   0   0   0   0   0   0   0   0   0   0
-##          9   1   0   1   3   0  12   7   0   1   0
+## Prediction    0    1    2    3    4    5    6    7    8    9
+##          0  974    0    3    2    1    4    4    1    6    3
+##          1    2 1129    0    0    1    0    3    4    1    2
+##          2    1    3 1022    6   11    1    3   16    8    1
+##          3    0    0    2  991    0   10    1    1    6    5
+##          4    0    0    0    0  944    0    1    0    1    4
+##          5    0    1    0    4    0  873   12    0    7    4
+##          6    2    1    1    0    5    1  932    0    0    0
+##          7    1    1    2    3    7    1    0 1004    3    8
+##          8    0    0    2    2    1    1    2    1  939    3
+##          9    0    0    0    2   12    1    0    1    3  979
 ## 
 ## Overall Statistics
 ##                                           
-##                Accuracy : 0.0812          
-##                  95% CI : (0.0759, 0.0867)
+##                Accuracy : 0.9787          
+##                  95% CI : (0.9757, 0.9814)
 ##     No Information Rate : 0.1135          
-##     P-Value [Acc &gt; NIR] : 1               
+##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
 ##                                           
-##                   Kappa : -0.0145         
+##                   Kappa : 0.9763          
 ##                                           
 ##  Mcnemar&#39;s Test P-Value : NA              
 ## 
 ## Statistics by Class:
 ## 
-##                      Class: 0 Class: 1 Class: 2 Class: 3 Class: 4 Class: 5
-## Sensitivity          0.003061 0.002643  0.12112   0.2861  0.00611  0.43274
-## Specificity          0.998337 0.998082  0.77018   0.8584  0.98536  0.38186
-## Pos Pred Value       0.166667 0.150000  0.05718   0.1850  0.04348  0.06416
-## Neg Pred Value       0.902124 0.886573  0.88393   0.9146  0.90103  0.87299
-## Prevalence           0.098000 0.113500  0.10320   0.1010  0.09820  0.08920
-## Detection Rate       0.000300 0.000300  0.01250   0.0289  0.00060  0.03860
-## Detection Prevalence 0.001800 0.002000  0.21860   0.1562  0.01380  0.60160
-## Balanced Accuracy    0.500699 0.500363  0.44565   0.5723  0.49574  0.40730
-##                      Class: 6 Class: 7 Class: 8 Class: 9
-## Sensitivity            0.0000   0.0000   0.0000   0.0000
-## Specificity            0.9987   0.9974   1.0000   0.9972
-## Pos Pred Value         0.0000   0.0000      NaN   0.0000
-## Neg Pred Value         0.9041   0.8970   0.9026   0.8988
-## Prevalence             0.0958   0.1028   0.0974   0.1009
-## Detection Rate         0.0000   0.0000   0.0000   0.0000
-## Detection Prevalence   0.0012   0.0023   0.0000   0.0025
-## Balanced Accuracy      0.4993   0.4987   0.5000   0.4986</code></pre>
+##                      Class: 0 Class: 1 Class: 2 Class: 3 Class: 4 Class: 5 Class: 6 Class: 7
+## Sensitivity            0.9939   0.9947   0.9903   0.9812   0.9613   0.9787   0.9729   0.9767
+## Specificity            0.9973   0.9985   0.9944   0.9972   0.9993   0.9969   0.9989   0.9971
+## Pos Pred Value         0.9760   0.9886   0.9534   0.9754   0.9937   0.9689   0.9894   0.9748
+## Neg Pred Value         0.9993   0.9993   0.9989   0.9979   0.9958   0.9979   0.9971   0.9973
+## Prevalence             0.0980   0.1135   0.1032   0.1010   0.0982   0.0892   0.0958   0.1028
+## Detection Rate         0.0974   0.1129   0.1022   0.0991   0.0944   0.0873   0.0932   0.1004
+## Detection Prevalence   0.0998   0.1142   0.1072   0.1016   0.0950   0.0901   0.0942   0.1030
+## Balanced Accuracy      0.9956   0.9966   0.9924   0.9892   0.9803   0.9878   0.9859   0.9869
+##                      Class: 8 Class: 9
+## Sensitivity            0.9641   0.9703
+## Specificity            0.9987   0.9979
+## Pos Pred Value         0.9874   0.9810
+## Neg Pred Value         0.9961   0.9967
+## Prevalence             0.0974   0.1009
+## Detection Rate         0.0939   0.0979
+## Detection Prevalence   0.0951   0.0998
+## Balanced Accuracy      0.9814   0.9841</code></pre>
 <p>Pretty good. Some funkiness with fives and eights, but otherwise, pretty good.</p>
 </div>
 </div>
@@ -341,128 +325,127 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="building-the-model-architecture" class="section level3">
 <h3><span class="header-section-number">3.2.1</span> 3.4.1 Building the model architecture</h3>
 <p>OK, let’s build a CNN to analyze MNIST.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">model_cnn &lt;-<span class="st"> </span><span class="kw">keras_model_sequential</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb25-2" data-line-number="2"><span class="st">  </span></a>
-<a class="sourceLine" id="cb25-3" data-line-number="3"><span class="st">  </span><span class="kw">layer_conv_2d</span>(<span class="dt">filters =</span> <span class="dv">32</span>, <span class="dt">kernel_size =</span> <span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">3</span>),</a>
-<a class="sourceLine" id="cb25-4" data-line-number="4">                <span class="dt">strides =</span> <span class="dv">1</span>, <span class="dt">padding =</span> <span class="st">&quot;same&quot;</span>,</a>
-<a class="sourceLine" id="cb25-5" data-line-number="5">                <span class="dt">activation =</span> <span class="st">&quot;relu&quot;</span>, <span class="dt">input_shape =</span> <span class="kw">c</span>(<span class="dv">28</span>,<span class="dv">28</span>,<span class="dv">1</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb25-6" data-line-number="6"><span class="st">  </span><span class="kw">layer_max_pooling_2d</span>(<span class="dt">pool_size =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb25-7" data-line-number="7"><span class="st">  </span></a>
-<a class="sourceLine" id="cb25-8" data-line-number="8"><span class="st">  </span><span class="kw">layer_conv_2d</span>(<span class="dt">filters =</span> <span class="dv">64</span>, <span class="dt">kernel_size =</span> <span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">3</span>),</a>
-<a class="sourceLine" id="cb25-9" data-line-number="9">                <span class="dt">strides =</span> <span class="dv">1</span>, <span class="dt">padding =</span> <span class="st">&quot;same&quot;</span>,</a>
-<a class="sourceLine" id="cb25-10" data-line-number="10">                <span class="dt">activation =</span> <span class="st">&quot;relu&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb25-11" data-line-number="11"><span class="st">  </span><span class="kw">layer_max_pooling_2d</span>(<span class="dt">pool_size =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb25-12" data-line-number="12"><span class="st">  </span></a>
-<a class="sourceLine" id="cb25-13" data-line-number="13"><span class="st">  </span><span class="kw">layer_flatten</span>() <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb25-14" data-line-number="14"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">64</span>, <span class="dt">activation =</span> <span class="st">&quot;relu&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb25-15" data-line-number="15"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">64</span>, <span class="dt">activation =</span> <span class="st">&quot;relu&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb25-16" data-line-number="16"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">10</span>, <span class="dt">activation =</span> <span class="st">&quot;softmax&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">model_cnn &lt;-<span class="st"> </span><span class="kw">keras_model_sequential</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb30-2" data-line-number="2"><span class="st">  </span></a>
+<a class="sourceLine" id="cb30-3" data-line-number="3"><span class="st">  </span><span class="kw">layer_conv_2d</span>(<span class="dt">filters =</span> <span class="dv">32</span>, <span class="dt">kernel_size =</span> <span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">3</span>),</a>
+<a class="sourceLine" id="cb30-4" data-line-number="4">                <span class="dt">strides =</span> <span class="dv">1</span>, <span class="dt">padding =</span> <span class="st">&quot;same&quot;</span>,</a>
+<a class="sourceLine" id="cb30-5" data-line-number="5">                <span class="dt">activation =</span> <span class="st">&quot;relu&quot;</span>, <span class="dt">input_shape =</span> <span class="kw">c</span>(<span class="dv">28</span>,<span class="dv">28</span>,<span class="dv">1</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb30-6" data-line-number="6"><span class="st">  </span><span class="kw">layer_max_pooling_2d</span>(<span class="dt">pool_size =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb30-7" data-line-number="7"><span class="st">  </span></a>
+<a class="sourceLine" id="cb30-8" data-line-number="8"><span class="st">  </span><span class="kw">layer_conv_2d</span>(<span class="dt">filters =</span> <span class="dv">64</span>, <span class="dt">kernel_size =</span> <span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">3</span>),</a>
+<a class="sourceLine" id="cb30-9" data-line-number="9">                <span class="dt">strides =</span> <span class="dv">1</span>, <span class="dt">padding =</span> <span class="st">&quot;same&quot;</span>,</a>
+<a class="sourceLine" id="cb30-10" data-line-number="10">                <span class="dt">activation =</span> <span class="st">&quot;relu&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb30-11" data-line-number="11"><span class="st">  </span><span class="kw">layer_max_pooling_2d</span>(<span class="dt">pool_size =</span> <span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">2</span>)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb30-12" data-line-number="12"><span class="st">  </span></a>
+<a class="sourceLine" id="cb30-13" data-line-number="13"><span class="st">  </span><span class="kw">layer_flatten</span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb30-14" data-line-number="14"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">64</span>, <span class="dt">activation =</span> <span class="st">&quot;relu&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb30-15" data-line-number="15"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">64</span>, <span class="dt">activation =</span> <span class="st">&quot;relu&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb30-16" data-line-number="16"><span class="st">  </span><span class="kw">layer_dense</span>(<span class="dt">units =</span> <span class="dv">10</span>, <span class="dt">activation =</span> <span class="st">&quot;softmax&quot;</span>)</a></code></pre></div>
 <p>So, what does this look like?</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">model_cnn</a></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">model_cnn</a></code></pre></div>
 <pre><code>## Model
-## Model: &quot;sequential_2&quot;
-## ________________________________________________________________________________
-## Layer (type)                        Output Shape                    Param #     
-## ================================================================================
-## conv2d (Conv2D)                     (None, 28, 28, 32)              320         
-## ________________________________________________________________________________
-## max_pooling2d (MaxPooling2D)        (None, 14, 14, 32)              0           
-## ________________________________________________________________________________
-## conv2d_1 (Conv2D)                   (None, 14, 14, 64)              18496       
-## ________________________________________________________________________________
-## max_pooling2d_1 (MaxPooling2D)      (None, 7, 7, 64)                0           
-## ________________________________________________________________________________
-## flatten_2 (Flatten)                 (None, 3136)                    0           
-## ________________________________________________________________________________
-## dense_6 (Dense)                     (None, 64)                      200768      
-## ________________________________________________________________________________
-## dense_7 (Dense)                     (None, 64)                      4160        
-## ________________________________________________________________________________
-## dense_8 (Dense)                     (None, 10)                      650         
-## ================================================================================
+## Model: &quot;sequential_10&quot;
+## ______________________________________________________________________________________________
+## Layer (type)                              Output Shape                         Param #        
+## ==============================================================================================
+## conv2d_9 (Conv2D)                         (None, 28, 28, 32)                   320            
+## ______________________________________________________________________________________________
+## max_pooling2d_8 (MaxPooling2D)            (None, 14, 14, 32)                   0              
+## ______________________________________________________________________________________________
+## conv2d_10 (Conv2D)                        (None, 14, 14, 64)                   18496          
+## ______________________________________________________________________________________________
+## max_pooling2d_9 (MaxPooling2D)            (None, 7, 7, 64)                     0              
+## ______________________________________________________________________________________________
+## flatten_8 (Flatten)                       (None, 3136)                         0              
+## ______________________________________________________________________________________________
+## dense_26 (Dense)                          (None, 64)                           200768         
+## ______________________________________________________________________________________________
+## dense_27 (Dense)                          (None, 64)                           4160           
+## ______________________________________________________________________________________________
+## dense_28 (Dense)                          (None, 10)                           650            
+## ==============================================================================================
 ## Total params: 224,394
 ## Trainable params: 224,394
 ## Non-trainable params: 0
-## ________________________________________________________________________________</code></pre>
+## ______________________________________________________________________________________________</code></pre>
 </div>
 <div id="bonus-lets-fit-this-and-compare-performance" class="section level3">
 <h3><span class="header-section-number">3.2.2</span> Bonus: Let’s fit this and compare performance</h3>
 <p>First, we need to reshape the dimensions of the data a bit so that there is one layer (Black and White). Don’t worry, we’ve already rescaled.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">train_images_cnn &lt;-<span class="st"> </span><span class="kw">array_reshape</span>(train_images, <span class="kw">c</span>(<span class="kw">nrow</span>(train_images), <span class="dv">28</span>, <span class="dv">28</span>, <span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb28-2" data-line-number="2">test_images_cnn &lt;-<span class="st"> </span><span class="kw">array_reshape</span>(test_images, <span class="kw">c</span>(<span class="kw">nrow</span>(test_images), <span class="dv">28</span>, <span class="dv">28</span>, <span class="dv">1</span>))</a></code></pre></div>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">model_cnn <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb29-2" data-line-number="2"><span class="st">  </span><span class="kw">compile</span>(</a>
-<a class="sourceLine" id="cb29-3" data-line-number="3">    <span class="dt">optimizer =</span> <span class="st">&quot;rmsprop&quot;</span>, <span class="co">#optimization algorithm</span></a>
-<a class="sourceLine" id="cb29-4" data-line-number="4">    <span class="dt">loss =</span> <span class="st">&quot;categorical_crossentropy&quot;</span>,</a>
-<a class="sourceLine" id="cb29-5" data-line-number="5">    <span class="dt">metrics =</span> <span class="kw">c</span>(<span class="st">&quot;accuracy&quot;</span>)</a>
-<a class="sourceLine" id="cb29-6" data-line-number="6">  )</a>
-<a class="sourceLine" id="cb29-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb29-8" data-line-number="8">history_cnn &lt;-<span class="st"> </span>model_cnn <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb29-9" data-line-number="9"><span class="st">  </span><span class="kw">fit</span>(<span class="dt">x =</span> train_images_cnn,</a>
-<a class="sourceLine" id="cb29-10" data-line-number="10">      <span class="dt">y =</span> train_labels,</a>
-<a class="sourceLine" id="cb29-11" data-line-number="11">      <span class="dt">epochs =</span> <span class="dv">10</span>,</a>
-<a class="sourceLine" id="cb29-12" data-line-number="12">      <span class="dt">batch_size =</span> <span class="dv">128</span>,</a>
-<a class="sourceLine" id="cb29-13" data-line-number="13">      <span class="dt">shuffle =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb29-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb29-15" data-line-number="15"><span class="kw">plot</span>(history_cnn)</a></code></pre></div>
-<pre><code>## `geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">train_images_cnn &lt;-<span class="st"> </span><span class="kw">array_reshape</span>(train_images, <span class="kw">c</span>(<span class="kw">nrow</span>(train_images), <span class="dv">28</span>, <span class="dv">28</span>, <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb33-2" data-line-number="2">test_images_cnn &lt;-<span class="st"> </span><span class="kw">array_reshape</span>(test_images, <span class="kw">c</span>(<span class="kw">nrow</span>(test_images), <span class="dv">28</span>, <span class="dv">28</span>, <span class="dv">1</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1">model_cnn <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb34-2" data-line-number="2"><span class="st">  </span><span class="kw">compile</span>(</a>
+<a class="sourceLine" id="cb34-3" data-line-number="3">    <span class="dt">optimizer =</span> <span class="st">&quot;rmsprop&quot;</span>, <span class="co">#optimization algorithm</span></a>
+<a class="sourceLine" id="cb34-4" data-line-number="4">    <span class="dt">loss =</span> <span class="st">&quot;categorical_crossentropy&quot;</span>,</a>
+<a class="sourceLine" id="cb34-5" data-line-number="5">    <span class="dt">metrics =</span> <span class="kw">c</span>(<span class="st">&quot;accuracy&quot;</span>)</a>
+<a class="sourceLine" id="cb34-6" data-line-number="6">  )</a>
+<a class="sourceLine" id="cb34-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb34-8" data-line-number="8">history_cnn &lt;-<span class="st"> </span>model_cnn <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb34-9" data-line-number="9"><span class="st">  </span><span class="kw">fit</span>(<span class="dt">x =</span> train_images_cnn,</a>
+<a class="sourceLine" id="cb34-10" data-line-number="10">      <span class="dt">y =</span> train_labels,</a>
+<a class="sourceLine" id="cb34-11" data-line-number="11">      <span class="dt">epochs =</span> <span class="dv">10</span>,</a>
+<a class="sourceLine" id="cb34-12" data-line-number="12">      <span class="dt">batch_size =</span> <span class="dv">128</span>,</a>
+<a class="sourceLine" id="cb34-13" data-line-number="13">      <span class="dt">shuffle =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb34-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb34-15" data-line-number="15"><span class="kw">plot</span>(history_cnn)</a></code></pre></div>
 <p><img src="r_deep_learning_vision_systems_files/figure-html/fit_cnn_mnist-1.png" width="672" />
 We can also evaluate it as before</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">model_cnn <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">evaluate</span>(test_images_cnn, test_labels)</a></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">model_cnn <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">evaluate</span>(test_images_cnn, test_labels)</a></code></pre></div>
 <pre><code>##       loss   accuracy 
-## 0.02882044 0.99210000</code></pre>
+## 0.03208445 0.99140000</code></pre>
 <p>Wow. That is a damn site better.</p>
 <p>And the confusion matrix and a breakdown by class.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">pred_mnist &lt;-<span class="st"> </span>model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">predict_classes</span>(test_images)</a>
-<a class="sourceLine" id="cb33-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb33-3" data-line-number="3"><span class="kw">confusionMatrix</span>(<span class="dt">data =</span> <span class="kw">factor</span>(pred_mnist, <span class="dt">levels =</span> <span class="dv">0</span><span class="op">:</span><span class="dv">9</span>), </a>
-<a class="sourceLine" id="cb33-4" data-line-number="4">                <span class="dt">reference =</span> <span class="kw">factor</span>(mnist<span class="op">$</span>test<span class="op">$</span>y, <span class="dt">levels =</span> <span class="dv">0</span><span class="op">:</span><span class="dv">9</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1">pred_mnist &lt;-<span class="st"> </span>model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">predict_classes</span>(test_images)</a>
+<a class="sourceLine" id="cb37-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb37-3" data-line-number="3"><span class="kw">confusionMatrix</span>(<span class="dt">data =</span> <span class="kw">factor</span>(pred_mnist, <span class="dt">levels =</span> <span class="dv">0</span><span class="op">:</span><span class="dv">9</span>), </a>
+<a class="sourceLine" id="cb37-4" data-line-number="4">                <span class="dt">reference =</span> <span class="kw">factor</span>(mnist<span class="op">$</span>test<span class="op">$</span>y, <span class="dt">levels =</span> <span class="dv">0</span><span class="op">:</span><span class="dv">9</span>))</a></code></pre></div>
 <pre><code>## Confusion Matrix and Statistics
 ## 
 ##           Reference
-## Prediction   0   1   2   3   4   5   6   7   8   9
-##          0   3   0   1   0   4   0   0   7   1   2
-##          1   0   3  10   0   1   0   1   0   1   4
-##          2 237 106 125  74 182 347  24 443 298 350
-##          3  97 107 291 289 175 121 132  91 190  69
-##          4  15  13  20   4   6  21  14  30   3  12
-##          5 624 899 583 638 607 386 777 457 476 569
-##          6   2   0   0   1   5   3   0   0   1   0
-##          7   1   7   1   1   2   2   3   0   3   3
-##          8   0   0   0   0   0   0   0   0   0   0
-##          9   1   0   1   3   0  12   7   0   1   0
+## Prediction    0    1    2    3    4    5    6    7    8    9
+##          0  974    0    3    2    1    4    4    1    6    3
+##          1    2 1129    0    0    1    0    3    4    1    2
+##          2    1    3 1022    6   11    1    3   16    8    1
+##          3    0    0    2  991    0   10    1    1    6    5
+##          4    0    0    0    0  944    0    1    0    1    4
+##          5    0    1    0    4    0  873   12    0    7    4
+##          6    2    1    1    0    5    1  932    0    0    0
+##          7    1    1    2    3    7    1    0 1004    3    8
+##          8    0    0    2    2    1    1    2    1  939    3
+##          9    0    0    0    2   12    1    0    1    3  979
 ## 
 ## Overall Statistics
 ##                                           
-##                Accuracy : 0.0812          
-##                  95% CI : (0.0759, 0.0867)
+##                Accuracy : 0.9787          
+##                  95% CI : (0.9757, 0.9814)
 ##     No Information Rate : 0.1135          
-##     P-Value [Acc &gt; NIR] : 1               
+##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
 ##                                           
-##                   Kappa : -0.0145         
+##                   Kappa : 0.9763          
 ##                                           
 ##  Mcnemar&#39;s Test P-Value : NA              
 ## 
 ## Statistics by Class:
 ## 
-##                      Class: 0 Class: 1 Class: 2 Class: 3 Class: 4 Class: 5
-## Sensitivity          0.003061 0.002643  0.12112   0.2861  0.00611  0.43274
-## Specificity          0.998337 0.998082  0.77018   0.8584  0.98536  0.38186
-## Pos Pred Value       0.166667 0.150000  0.05718   0.1850  0.04348  0.06416
-## Neg Pred Value       0.902124 0.886573  0.88393   0.9146  0.90103  0.87299
-## Prevalence           0.098000 0.113500  0.10320   0.1010  0.09820  0.08920
-## Detection Rate       0.000300 0.000300  0.01250   0.0289  0.00060  0.03860
-## Detection Prevalence 0.001800 0.002000  0.21860   0.1562  0.01380  0.60160
-## Balanced Accuracy    0.500699 0.500363  0.44565   0.5723  0.49574  0.40730
-##                      Class: 6 Class: 7 Class: 8 Class: 9
-## Sensitivity            0.0000   0.0000   0.0000   0.0000
-## Specificity            0.9987   0.9974   1.0000   0.9972
-## Pos Pred Value         0.0000   0.0000      NaN   0.0000
-## Neg Pred Value         0.9041   0.8970   0.9026   0.8988
-## Prevalence             0.0958   0.1028   0.0974   0.1009
-## Detection Rate         0.0000   0.0000   0.0000   0.0000
-## Detection Prevalence   0.0012   0.0023   0.0000   0.0025
-## Balanced Accuracy      0.4993   0.4987   0.5000   0.4986</code></pre>
+##                      Class: 0 Class: 1 Class: 2 Class: 3 Class: 4 Class: 5 Class: 6 Class: 7
+## Sensitivity            0.9939   0.9947   0.9903   0.9812   0.9613   0.9787   0.9729   0.9767
+## Specificity            0.9973   0.9985   0.9944   0.9972   0.9993   0.9969   0.9989   0.9971
+## Pos Pred Value         0.9760   0.9886   0.9534   0.9754   0.9937   0.9689   0.9894   0.9748
+## Neg Pred Value         0.9993   0.9993   0.9989   0.9979   0.9958   0.9979   0.9971   0.9973
+## Prevalence             0.0980   0.1135   0.1032   0.1010   0.0982   0.0892   0.0958   0.1028
+## Detection Rate         0.0974   0.1129   0.1022   0.0991   0.0944   0.0873   0.0932   0.1004
+## Detection Prevalence   0.0998   0.1142   0.1072   0.1016   0.0950   0.0901   0.0942   0.1030
+## Balanced Accuracy      0.9956   0.9966   0.9924   0.9892   0.9803   0.9878   0.9859   0.9869
+##                      Class: 8 Class: 9
+## Sensitivity            0.9641   0.9703
+## Specificity            0.9987   0.9979
+## Pos Pred Value         0.9874   0.9810
+## Neg Pred Value         0.9961   0.9967
+## Prevalence             0.0974   0.1009
+## Detection Rate         0.0939   0.0979
+## Detection Prevalence   0.0951   0.0998
+## Balanced Accuracy      0.9814   0.9841</code></pre>
 <p>Also here. Excellent.</p>
 
 </div>

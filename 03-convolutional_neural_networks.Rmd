@@ -95,7 +95,7 @@ Let's compile the network using stochastic gradient descent as our optimizer, ex
 ```{r mnist_compile_simple}
 model %>%
   compile(
-    optimizer = "sgd", #optimization algorithm
+    optimizer = "rmsprop", #optimization algorithm
     loss = "categorical_crossentropy",
     metrics = c("accuracy")
   )

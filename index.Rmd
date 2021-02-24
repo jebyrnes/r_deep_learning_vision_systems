@@ -12,7 +12,7 @@ description: "This is an attempt to translate Deep Learning for Vision Systems i
 
 ```{r setup}
 library(knitr)
-knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, cache.path = "cache/")
 ```
 
 # This Project {-}

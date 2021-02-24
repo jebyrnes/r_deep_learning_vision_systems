@@ -4,6 +4,7 @@
 We will start with...
 
 ```{r cnn_init}
+library(generics)
 library(keras)
 library(tensorflow)
 ```
@@ -102,10 +103,32 @@ model %>%
 
 Great! So.... let's fit it!
 
-```{r fit_simple_mnist, message=TRUE, cache = TRUE}
-model %>%
+```{r fit_simple_mnist, message=TRUE, cache = TRUE, cache.path='cache/', results="asis"}
+history <- model %>%
   fit(x = train_images,
       y = train_labels,
-      epochs = 5,
+      epochs = 10,
       batch_size = 128)
+
+plot(history)
 ```
+
+We can also evaluate this model against test data.
+
+```{r mnist_fit_eval}
+model %>% evaluate(test_images, test_labels)
+```
+
+Look at that accuracy! Not bad!
+
+Let's look in more detail with `caret` and see how well more model behaves for each number.
+
+```{r caret_confusion, message = FALSE, warning = FALSE}
+library(caret)
+pred_mnist <- model %>% predict_classes(test_images)
+
+confusionMatrix(data = factor(pred_mnist, levels = 0:9), 
+                reference = factor(mnist$test$y, levels = 0:9))
+```
+
+Pretty good. Some funkiness with fives and eights, but otherwise, pretty good.
